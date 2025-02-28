@@ -9,11 +9,12 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix",
+    "lint": "eslint . --ext .vue,.ts,.tsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "vue": "^3.5.13",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
@@ -22,15 +23,21 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.4.0",
+    "@vue/runtime-dom": "^3.5.13",
     "@vue/tsconfig": "^0.7.0",
+    "autoprefixer": "^10.4.20",
     "eslint": "^9.20.1",
     "eslint-plugin-vue": "^9.32.0",
     "jiti": "^2.4.2",
     "npm-run-all2": "^7.0.2",
+    "postcss": "^8.5.3",
     "prettier": "^3.5.1",
+    "sass": "^1.85.1",
     "typescript": "~5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-vue-devtools": "^7.7.2",
+    "vue": "^3.5.13",
+    "vue-loader": "^17.4.2",
     "vue-tsc": "^2.2.2"
   }
 }
