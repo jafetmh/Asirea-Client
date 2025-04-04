@@ -1,0 +1,4 @@
+const ASIREA_PHONE_NUMBER = "2710 7416";
+const ASIREA_EMAIL = "asirea@asirea.org";
+
+export {ASIREA_PHONE_NUMBER, ASIREA_EMAIL};

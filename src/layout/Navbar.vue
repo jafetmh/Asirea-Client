@@ -1,77 +1,45 @@
-
 <template>
-  <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg fixed-top">
+  <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" @click="goToPage('/')">
- <!--        <img src="/Apaza/.webp/apaza_logo.webp" alt="APAZA Logo" class="me-2 navbar-logo" />
+        <!--        <img src="/Apaza/.webp/apaza_logo.webp" alt="APAZA Logo" class="me-2 navbar-logo" />
         <span id="title" class="fs-2 fw-semibold">{{ lang.value?.title || '' }}</span> -->
       </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar"
-        aria-label="Toggle navigation"
-      >
-      <MenuOpen></MenuOpen>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <MenuOpen></MenuOpen>
       </button>
-      <div
-        :class="[
-          'offcanvas offcanvas-start fs-5',
-          { 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme },
-        ]"
-        tabindex="-1"
-        id="offcanvasNavbar"
-        aria-labelledby="offcanvasNavbarLabel"
-        ref="navbarCollapse"
-      >
+      <div :class="[
+        'offcanvas offcanvas-start fs-5',
+        { 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme },
+      ]" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <button
-            type="button"
-            class="btn-close btn-close-white"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li
-              :class="[{ active: $route.path === '/' }, 'nav-item']"
-              aria-current="page"
-              @click="goToPage('/')"
-              data-bs-dismiss="offcanvas"
-            >
+            <li :class="[{ active: currentRoute === '/' }, 'nav-item']" aria-current="page" @click="goToPage('/')"
+              data-bs-dismiss="offcanvas">
               <label>Inicio</label>
             </li>
-            <li class="nav-item" data-bs-dismiss="offcanvas">
+            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/directorsboard')"
+              :class="{ active: currentRoute === '/directorsboard' }">
               <label>Junta directiva</label>
             </li>
-            <li class="nav-item" data-bs-dismiss="offcanvas">
+            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/services')"
+              :class="{ active: currentRoute === '/services' }">
               <label>Servicios</label>
             </li>
-
-            <li
-              :class="[
-                { active: $route.path === '/events' || $route.path === '/event' },
-                'nav-item',
-              ]"
-              @click="goToPage('/events')"
-              data-bs-dismiss="offcanvas"
-            >
-              <label>Proyectos</label>
-            </li>
-            <li class="nav-item" @click="goToPage('/admin/dashboard')">
+            <li class="nav-item" @click="goToPage('/announcements')"
+              :class="{ active: currentRoute === '/announcements' }">
               <label>Anuncios</label>
             </li>
           </ul>
           <div class="divider-div"></div>
-          <ToggleTheme themeLabel="Modo oscuro"
-            class="bs-padding"
-            @theme-change="handleThemeChange"
-            data-bs-dismiss="offcanvas"
-          />
+          <ToggleTheme themeLabel="Modo oscuro" class="bs-padding" @theme-change="handleThemeChange"
+            data-bs-dismiss="offcanvas" />
           <!--<div class="divider"></div>
            <div class="dropdown">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -107,43 +75,58 @@ import { useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import rippleEffect from '@/composables/ripple-effect';
 import ToggleTheme from '@/components/ToggleTheme.vue';
-import { MenuOpen } from '@/components/icons/menu';
+import { MenuOpen } from '@/components/icons';
 
 const router = useRouter();
+const currentRoute = ref(router.currentRoute.value.path);
 const darkTheme = ref(false);
+
 onMounted(() => {
-  rippleEffect();
+  Array.from(document.querySelectorAll('li'), el => el as HTMLElement).forEach((element: HTMLElement) => {
+    element.style.position = 'relative';
+    element.style.overflow = 'hidden'
+    element.addEventListener('click', rippleEffect)
+  })
 });
 
 const handleThemeChange = (isDarkTheme: boolean) => {
-    darkTheme.value = isDarkTheme
+  darkTheme.value = isDarkTheme
 }
 function goToPage(url: string) {
-    router.push(url)
+  router.push(url);
+  currentRoute.value = url;
 }
 </script>
 
 <style scoped lang="scss">
-
 @include ripple-effect();
+.container svg{
+  fill: var(--text-color);
+}
 
 .navbar {
+  position: sticky;
+  top: 0;
   color: var(--text-color);
-  background: rgba(var(--tertiary-bg-rgb), 1);
+  background: var(--tertiary-bg);
   transition: 0.8s ease;
   border-bottom: 1px solid var(--border-color);
+  padding-right: 0;
 }
 
 .offcanvas-light {
   color: var(--text-color);
   background: rgba(var(--tertiary-bg-rgb), 1);
 }
+
 .offcanvas.offcanvas-start {
   border-radius: 0 5px 5px 0;
+
   @media (max-width: 768px) {
     width: 280px;
   }
 }
+
 .btn-close {
   --bs-btn-close-focus-shadow: none;
 }
@@ -176,6 +159,7 @@ img {
 li label {
   cursor: pointer !important;
 }
+
 #title {
   color: var(--text-color-1);
   position: relative;
@@ -196,6 +180,7 @@ li label {
       0 0 #555555;
     transform: translateY(0);
   }
+
   100% {
     text-shadow:
       0 -1px #1b91e0,
@@ -205,7 +190,9 @@ li label {
     transform: translateY(8px);
   }
 }
-
+.navbar-toggler {
+  border: none;
+}
 .navbar-toggler:focus {
   box-shadow: none;
 }
@@ -218,6 +205,7 @@ li.active {
   .menu-icon {
     @include display-control();
   }
+
   .navbar .nav-item {
     color: var(--text-color);
     position: relative;
@@ -229,6 +217,7 @@ li.active {
     cursor: pointer;
     background-color: rgba(var(--accent-color-rgb), 0.102);
   }
+
   .nav-item::after {
     content: '';
     position: absolute;
@@ -252,9 +241,11 @@ li.active {
     color: #fff;
     background-color: var(--background-color);
   }
+
   button:not(.btn-close, .btn-close-white):focus {
     border: none;
   }
+
   button:not(.btn-close, .btn-close-white):active {
     border: none;
   }
@@ -264,6 +255,7 @@ li.active {
     margin-left: 2.5rem;
     border-right: 1px solid var(--divider-color);
   }
+
   .dropdown {
     margin-left: 0.5rem;
     display: flex;
@@ -282,6 +274,7 @@ li.active {
     align-items: center;
     padding: 10px;
   }
+
   .menu-icon {
     @include menuIcon();
   }
@@ -292,9 +285,10 @@ li.active {
   }
 
   .divider-div {
-    border-bottom: 1px solid rgba(105, 95, 95, 0.521);
+    border-bottom: 1px solid var(--border-color);
     margin: 10px;
   }
+
   button:not(.btn-close, .btn-close-white) {
     color: #fff;
     background-color: var(--background-color);
@@ -312,19 +306,24 @@ li.active {
 .dropdown-menu {
   padding: 5px;
   box-shadow: 0 2px 4px rgba(180, 171, 177, 0.486);
+
   .dropdown-item {
     border-radius: 5px;
   }
+
   .dropdown-item.active {
     background-color: var(--background-color);
   }
+
   .dropdown-item:active {
     background-color: var(--background-color-4);
   }
+
   .dropdown-item:not(.active):hover {
     background-color: #4ea4d6;
   }
 }
+
 .dropdown-bg {
   background: #2f73b7a1 !important;
 }
