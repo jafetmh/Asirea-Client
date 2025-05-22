@@ -28,16 +28,16 @@
         <div class="offcanvas offcanvas-end" id="useroffcanvas" tabindex="-1">
             <!-- user profile image -->
             <div class="offcanvas-body position-relative">
-                <div class="text-center pt-4 pb-3">
+                <div class="text-center pt-4 pb-3 custom-bg">
                     <div class="avatar avatar-xl ">
-                        <img :src="authStore.user?.picture" class="rounded-circle" width="80px" height="80px">
+                        <img :src="store.user?.picture" class="rounded-circle" width="80px" height="80px">
                     </div>
-                    <h6 class="mt-2 text-body-emphasis">{{ authStore.user?.name }}</h6>
+                    <h6 class="my-4 text-body-emphasis">{{ store.user?.name }}</h6>
                 </div>
-                <div class="overflow-auto">
+                <div class="overflow-auto mt-4">
                     <ul class="nav d-flex flex-column">
                         <li class="nav-item mx-1">
-                            <a class="nav-link" href="/profile">
+                            <a class="nav-link" :href="`/profile/${store.user?.id}`">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="currentColor" class="me-2">
                                     <path
@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="nav-item mx-1">
-                            <a class="nav-link">
+                            <a class="nav-link" href="/sing-up">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="currentColor" class="me-2">
                                     <path
@@ -67,15 +67,15 @@
 
 </template>
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import useAuthStore from '@/store/authStore';
 
 const fullscreen = ref(false);
-const authStore = useAuthStore();
+const store = useAuthStore();
 
 const logout = () => {
-    authStore.logout();
+    store.logout();
 }
 
 const toggleFullscreen = () => {
@@ -96,10 +96,13 @@ const toggleFullscreen = () => {
     padding: 0%;
     margin: 0%;
 }
-
+@include respond-to(mobile) {
+    .admin-navbar {max-width: 100vw !important;}
+}
 .admin-navbar {
     position: sticky;
-    min-width: 100vw;
+    width: 100vw;
+    max-width: calc(100vw - 15px);
     top: 0;
     padding: 1em;
     border-bottom: 1px solid var(--border-color);
@@ -147,5 +150,11 @@ button {
     width: calc(100% - 32px);
     position: absolute;
     bottom: 20px;
+}
+
+.custom-bg {
+    border-radius: 5px;
+    background-color: var(--bg-body-1);
+    opacity: 0.9;
 }
 </style>

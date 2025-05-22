@@ -4,7 +4,8 @@
             <div class="image-content"></div>
             <div class="h-100">
                 <div class="text-center mt-5">
-                    <h2>ASIREA</h2>
+                    <img :src="!authStore.darkMode ? AsireaWhiteSymbol : AsireaSymbol" alt="logo"
+                        class="me-2 asirea-logo" width="120" height="100" />
                 </div>
                 <div class="d-flex justify-content-center">
                     <div class="login-content">
@@ -51,24 +52,39 @@
                             <div class="text-end" style="font-size: .95em;">
                                 <a href=""><span>Recuperar contraseña</span></a>
                             </div>
-                            <ButtonComponent label="Acceder" class="sing-in-btn" type="submit"/>
+                            <ButtonComponent :rounded="true" label="Acceder" class="sing-in-btn" type="submit" />
                             <div>
-                                <div id="google-signIn-btn"></div>
+                                <div id="google-signIn-btn" role="button"></div>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <div v-if="loading" class="loader-container">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <Dialog v-if="isError" :header="errorMessage.header" :message="errorMessage.message" :icon="error"
+            @close="isError = false"></Dialog>
     </div>
 </template>
 <script setup lang="ts">
+import AsireaSymbol from '../../assets/Logosimbolo.webp'
+import AsireaWhiteSymbol from '../../assets/logosimboloblanco.webp'
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import { onMounted, ref } from 'vue';
 import useAuthStore from '@/store/authStore';
 import type { User } from '@/interfaces/User';
+import Dialog from '@/components/Dialog.vue';
+import { ERROR } from '@/const';
+import error from '@/assets/error.json'
 
+const isError = ref(false);
+const loading = ref<boolean>(false);
+const errorMessage = ref<{ header: string, message: string }>(ERROR.request);
 const isPasswordVisible = ref(false);
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const authStore = useAuthStore();
@@ -99,17 +115,32 @@ const initializeGoogleAuth = () => {
     )
 };
 const singInWithGoogle = async (response: google.accounts.id.CredentialResponse) => {
+    loading.value = true;
     try {
         await authStore.singInWithGoogle(response.credential);
+        loading.value = false;
     } catch (error) {
-        alert("error al autenticarse")
+        loading.value = false
+        errorMessage.value = ERROR.request
+        isError.value = true
     }
 };
 const singIn = async () => {
     try {
+        const { username, password } = user.value;
+        if (username === '' || password === '') {
+            errorMessage.value = ERROR.input
+            isError.value = true
+            return
+        }
+        loading.value = true
         await authStore.singIn(user.value)
+        loading.value = false
+
     } catch (error) {
-        alert("error al autenticarse")
+        loading.value = false
+        errorMessage.value = ERROR.request
+        isError.value = true;
     }
 }
 const togglePasswordVisible = () => {
@@ -117,32 +148,30 @@ const togglePasswordVisible = () => {
 }
 </script>
 <style scoped lang="scss">
-.login-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    background-color: rgba(var(--tertiary-bg-rgb), 1.0);
-
-    .image-content,
-    .login-content {
-        width: 100%;
-    }
-
-    .sing-in-btn,
-    .sing-in-btn:active {
-        background-color: rgba(var(--white-rgb), 1);
-    }
-
-}
-
 .wrapper {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    .login-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        background-color: rgba(var(--tertiary-bg-rgb), 1.0);
+
+        .image-content,
+        .login-content {
+            width: 100%;
+        }
+
+        .asirea-logo {
+            filter: drop-shadow(2px 2px 2px var(--accent-color));
+        }
+    }
 
     .login-content {
         display: flex;
@@ -198,7 +227,6 @@ const togglePasswordVisible = () => {
             }
 
             .form-control {
-                color: var(--text-secondary-clr);
                 background-color: var(--bg-body) !important;
             }
 
@@ -214,7 +242,35 @@ const togglePasswordVisible = () => {
                 padding: 0;
                 margin: 0;
             }
+
+            .sing-in-btn,
+            .sing-in-btn:active {
+                background-color: rgba(var(--white-rgb), 1);
+            }
+            #google-signIn-btn:deep(*) {
+                font-family: inherit !important;
+            }
         }
+    }
+}
+
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(var(--black-rgb), 0.5);
+    z-index: 9999;
+
+    .spinner-border {
+        color: var(--accent-color);
+        width: 4rem;
+        height: 4rem;
+        border-width: 6px;
     }
 }
 
@@ -228,10 +284,9 @@ const togglePasswordVisible = () => {
 
             .image-content {
                 grid-column: 1;
-                background-image: url("../../assets/loginImage.jpg");
+                background-image: url("../../assets/background.webp");
                 background-size: cover;
                 background-repeat: no-repeat;
-                border-radius: 5px 0 0 5px;
             }
 
             .login-content {

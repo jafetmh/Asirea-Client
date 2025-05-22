@@ -38,4 +38,10 @@
     display: block;
     margin-right: $margin;
   }
+  @mixin flexbox($flex-dir: row, $justify-content: center, $align-items: center){
+    display: flex;
+    flex-direction: $flex-dir;
+    justify-content: $justify-content;
+    align-items: $align-items;
+  }
   

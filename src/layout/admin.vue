@@ -16,7 +16,7 @@ const toggleAside = () => {
     <AdminNav class="admin-nav"></AdminNav>
     <Aside :isClose="isAsideOpen" @toggle="toggleAside" class="aside"></Aside>
     <main class="main">
-      <div class="container">
+      <div>
         <RouterView></RouterView>
       </div>
     </main>
@@ -48,7 +48,7 @@ const toggleAside = () => {
   }
 
   main {
-    padding: 2em 1em 60px 1em;
+    padding: 0 0 60px 0;
   }
 }
 

@@ -9,53 +9,67 @@
       <label>Modo oscuro</label>
     </div>
     <div class="form-check form-switch disable">
-      <input id="bs-switch" class="form-check-input" type="checkbox" role="switch" v-model="isDarkMode"
-        @change="toggleTheme" />
+      <input id="bs-switch" class="form-check-input" type="checkbox" role="switch" @change="toggleTheme" v-model="store.darkMode"/>
     </div>
-    <label id="themeLabel" class="toggle" :class="{ 'theme-icon-effect': isDarkMode }">
-      <input id="switch" class="input" type="checkbox" v-model="isDarkMode" @change="toggleTheme" />
+    <label id="toggle" class="theme-toggle toggle" title="Toggle theme">
+      <input type="checkbox" @change="toggleTheme" v-model="store.darkMode"/>
+      <span class="theme-toggle-sr">Toggle theme</span>
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="1.3em" height="1.3em" fill="currentColor"
+        class="theme-toggle__expand" viewBox="0 0 32 32">
+        <clipPath id="theme-toggle__expand__cutout">
+          <path d="M0-11h25a1 1 0 0017 13v30H0Z" />
+        </clipPath>
+        <g clip-path="url(#theme-toggle__expand__cutout)">
+          <circle cx="16" cy="16" r="8.4" />
+          <path
+            d="M18.3 3.2c0 1.3-1 2.3-2.3 2.3s-2.3-1-2.3-2.3S14.7.9 16 .9s2.3 1 2.3 2.3zm-4.6 25.6c0-1.3 1-2.3 2.3-2.3s2.3 1 2.3 2.3-1 2.3-2.3 2.3-2.3-1-2.3-2.3zm15.1-10.5c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zM3.2 13.7c1.3 0 2.3 1 2.3 2.3s-1 2.3-2.3 2.3S.9 17.3.9 16s1-2.3 2.3-2.3zm5.8-7C9 7.9 7.9 9 6.7 9S4.4 8 4.4 6.7s1-2.3 2.3-2.3S9 5.4 9 6.7zm16.3 21c-1.3 0-2.3-1-2.3-2.3s1-2.3 2.3-2.3 2.3 1 2.3 2.3-1 2.3-2.3 2.3zm2.4-21c0 1.3-1 2.3-2.3 2.3S23 7.9 23 6.7s1-2.3 2.3-2.3 2.4 1 2.4 2.3zM6.7 23C8 23 9 24 9 25.3s-1 2.3-2.3 2.3-2.3-1-2.3-2.3 1-2.3 2.3-2.3z" />
+        </g>
+      </svg>
+    </label>
+    <!--     <label id="themeLabel" class="toggle" :class="{ 'theme-icon-effect': store.darkMode }">
+      <input id="switch" class="input" type="checkbox" v-model="store.darkMode" @change="toggleTheme" />
       <div class="icon icon--moon">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor">
           <path
             d="M484-80q-84 0-157.5-32t-128-86.5Q144-253 112-326.5T80-484q0-146 93-257.5T410-880q-18 99 11 193.5T521-521q71 71 165.5 100T880-410q-26 144-138 237T484-80Z" />
         </svg>
       </div>
       <div class="icon icon--sun">
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" height="28px" viewBox="0 -960 960 960" width="28px" fill="currentColor">
           <path
             d="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280ZM200-440H40v-80h160v80Zm720 0H760v-80h160v80ZM440-760v-160h80v160h-80Zm0 720v-160h80v160h-80ZM256-650l-101-97 57-59 96 100-52 56Zm492 496-97-101 53-55 101 97-57 59Zm-98-550 97-101 59 57-100 96-56-52ZM154-212l101-97 55 53-97 101-59-57Z" />
         </svg>
       </div>
-    </label>
+    </label> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import bootstrap, { Tooltip } from 'bootstrap'
-import { ref, onMounted, defineEmits } from 'vue'
+import { Tooltip } from 'bootstrap'
+import { onMounted } from 'vue'
+import useAuthStore from '@/store/authStore'
 
-const isDarkMode = ref(false)
+const store = useAuthStore()
 const emit = defineEmits(['theme-change'])
 
 onMounted(() => {
-  new Tooltip('#themeLabel', { placement: 'bottom', title: 'Cambiar de tema', trigger:'hover' });
-  const savedTheme = localStorage.getItem('darkMode')
-  if (savedTheme === 'enabled') {
-    isDarkMode.value = true
+  new Tooltip('#toggle', { placement: 'bottom', title: 'Tema', trigger: 'hover' });
+  if (store.darkMode) {
     document.body.classList.add('dark-mode')
   }
-  emit('theme-change', isDarkMode.value)
 })
 
 function toggleTheme() {
-  if (isDarkMode.value) {
+  if (store.darkMode) {
     document.body.classList.add('dark-mode')
     localStorage.setItem('darkMode', 'enabled')
+    store.darkMode = true;
   } else {
     document.body.classList.remove('dark-mode')
     localStorage.setItem('darkMode', 'disabled')
+    store.darkMode = false;
   }
-  emit('theme-change', isDarkMode.value)
+  emit('theme-change', store.darkMode);
 }
 </script>
 
@@ -104,8 +118,8 @@ input:not(.input) {
   /* estilo de iconos de tema */
   .toggle {
     background-color: rgba(255, 255, 255, 0.1);
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: grid;
     place-items: center;

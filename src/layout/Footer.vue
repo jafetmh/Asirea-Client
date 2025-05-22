@@ -104,13 +104,12 @@
 <script setup>
 import { ASIREA_PHONE_NUMBER, ASIREA_EMAIL } from '@/const';
 
-
 </script>
 
 <style scoped>
 .footer_area {
     background-color: var(--tertiary-bg);
-    box-shadow: 0 -8px 16px rgba(var(--accent-color-rgb), 0.400);
+    box-shadow: 0 -5px 15px rgba(176, 179, 193, 0.3);
     padding: 60px;
 }
 

@@ -1,11 +1,11 @@
 <template>
-    <button :class="['btn', { 'rounded-pill': rounded }]">
+    <button :class="[{ 'rounded': rounded }]">
         <component :is="isIcon" class="me-1"></component>
         <span>{{ props.label }}</span>
     </button>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
     rounded: {
         type: Boolean,
@@ -14,7 +14,7 @@ const props = defineProps({
     },
     label: {
         type: String,
-        required: true
+        required: false
     },
     isIcon: {
         type: Object,
@@ -22,22 +22,28 @@ const props = defineProps({
     }
 })
 </script>
-<style scoped>
-.btn {
-    color: var(--text-color);
-    border-color: var(--border-color);
-    box-shadow: 0 0.1em rgba(var(--bg-secondary-rgb), 1);
-    transition: 0.2s;
+<style scoped lang="scss">
+button,
+button:active {
+    background-color: var(--tertiary-bg);
 }
-span {
-    color: var(--text-secondary-clr);
+
+button {
+    border: 2px solid var(--border-color);
+    transition: transform .3s ease-in-out;
+    padding: 5px 20px;
+    span {
+        color: var(--text-secondary-clr);
+        font-weight: bold;
+        font-size: small;
+        text-wrap: nowrap;
+    }
 }
-.btn:hover {
-    transform: translateY(-0.05em);
-    box-shadow: 0 0.15em rgba(var(--bg-secondary-rgb), 1);
+
+button:active {
+    transform: scale(0.96);
 }
-.btn:active {
-    transform: translateY(0.05em);
-    box-shadow: 0 0.05em rgba(var(--bg-secondary-rgb), 1);
+.rounded {
+    border-radius: 4px !important;
 }
 </style>

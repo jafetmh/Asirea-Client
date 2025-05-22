@@ -4,17 +4,19 @@ import router from "@/router";
 import type { User } from "@/interfaces/User";
 import { apiRoutes } from "@/api/api_routes";
 
-interface AuthStore {
+interface Store {
+    darkMode: boolean,
     user: User | null;
     token: string | null;
     isAuthenticated: boolean;
 }
 
 const useAuthStore = defineStore('auth', {
-    state:(): AuthStore => ({
+    state:(): Store => ({
+        darkMode: localStorage.getItem('darkMode')==='enabled'?true:false,
         user: null,
-        token: localStorage.getItem('token') || null,
-        isAuthenticated: !!localStorage.getItem('token')
+        token: sessionStorage.getItem('token') || null,
+        isAuthenticated: !!sessionStorage.getItem('token')
     }),
     persist: {
         storage: sessionStorage,

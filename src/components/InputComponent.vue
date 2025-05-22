@@ -1,5 +1,5 @@
 <template>
-    <input class="form-control" :placeholder="props.placeholder"/>
+    <input :class="['form-control', {'is-invalid': error}]" :placeholder="props.placeholder"/>
 </template>
 
 <script setup>
@@ -8,6 +8,10 @@ import { defineProps } from 'vue';
     const props = defineProps({
         placeholder: {
             type: String,
+            required: false
+        },
+        error: {
+            type: Boolean,
             required: false
         }
     })
@@ -18,7 +22,7 @@ import { defineProps } from 'vue';
     }
     .form-control:focus {
         border-width: 2px;
-        border-color: rgba(var(--bg-secondary-rgb),1);
+        border-color: var(--text-secondary-clr);
         box-shadow: none;
     }
 </style>
