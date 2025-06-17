@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { RouterView } from 'vue-router'
 import Aside from './Aside.vue';
 import AdminNav from './AdminNav.vue';
