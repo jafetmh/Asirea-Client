@@ -2,11 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Admin from '@/layout/Admin.vue'
 import User from '@/layout/UserLayout.vue'
 import Home from '@/views/HomeView.vue'
-import DirectorsBoard from '@/views/DirectorsBoard.vue'
+import Contact from '@/views/ContactUs.vue'
 import Services from '@/views/Services.vue'
 import Announcements from '@/views/Announcements.vue'
 import UserProfile from '@/views/Admin/UserProfile.vue'
-import Login from '@/views/Admin/Login.vue'
+import Login from '@/views/Admin/LoginView.vue'
 import AdminHome from '@/views/Admin/AdminHome.vue'
 import useAuthStore from '@/store/authStore'
 
@@ -56,9 +56,9 @@ const router = createRouter({
           component: Home
         },
         {
-          path: '/directorsboard',
-          name: 'directorsboard',
-          component: DirectorsBoard
+          path: '/contact',
+          name: 'contact',
+          component: Contact
         },
         {
           path: '/services',

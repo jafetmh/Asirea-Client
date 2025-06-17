@@ -1,7 +1,8 @@
+@import "bootstrap-icons/font/bootstrap-icons";
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,10,400;0,10,700&display=swap');
 :root{
 
-  --bg-body: #fff;
+  --bg-body: #ffff;
   --bg-body-1: #EDF3FB;
   --black-color: #000;
   --black-rgb: 0,0,0;
@@ -9,25 +10,23 @@
 
   --bg-green: #f7fcf5;
   --bg-green-1: #e5f5e0;
-  --bg-secondary-rgb: 103, 111, 126;
 
   --text-color-1: #676f7e;
-  --text-color: var(--text-color-1);
   --text-color-2: #b0b3c1;
   --text-color-3: #2C2C2C;
-
   --title-color: #343a40;
-/*   --accent-color: #41ab5d; */
-  --accent-color: #4cbd89;
-  /* --accent-color-rgb: 54, 228, 38; */
+
+  --accent-color: #15803d;
+  --accent-color-rgb: 21, 128, 61;
 
   --aside-bg: #f7f7f8;
   --nav-link-active: #eceef1;
   --nav-active-color: #22252a;
   --nav-link-active-hover: #eff2f6;
 
-  --tertiary-bg: #F7F7F8;
-  --tertiary-bg-rgb: 247,247,248;
+  --tertiary-bg: #eff1f3;
+/*   --tertiary-bg: #F7F7F8;
+  --tertiary-bg-rgb: 247,247,248; */
 
   --border-color: #dbdde1;
   --icon-font-size: 1em;
@@ -41,11 +40,11 @@ body.dark-mode {
   --text-color-3: #e6e6ef;
   --text-color-1: #818898;
 
-  --title-color:#c9cdd0;
+  --title-color:#e7ebed;
 
  /*  --accent-color: #41ab5d;
   --accent-color-rgb: 54, 228, 38; */
-  --accent-color: #4cbd89;
+  --accent-color: var(--p-green-700);
 
   --line-clr: #42434a;
   --hover-clr: #222533;
@@ -71,7 +70,7 @@ body{
   background-color: var(--bg-body);
   color: var(--text-color-1);
   font-family: Nunito Sans, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  font-size: 1em;
+  font-size: 1.2em;
   font-weight: 400;
   line-height: 1.5;
 }

@@ -2,31 +2,24 @@
   <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" @click="goToPage('/')">
-        <img :src="darkTheme?AsireaLogo1:AsireaLogo" alt="logo" class="m-1" width="70" height="60" />
-        <p class="asirea">Asociación para el Desarrollo Sostenible de la Región Atlántica.</p>
+        <img :src="darkTheme ? AsireaLogo1 : AsireaLogo" alt="logo" class="m-1" width="80" height="60" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
         aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <MenuOpen></MenuOpen>
       </button>
-      <div :class="[
-        'offcanvas offcanvas-start fs-5',
-        { 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme },
-      ]" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
+      <div class="offcanvas offcanvas-start fs-5" :class="{ 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme }"
+        tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+          <img :src="AsireaLogo1" alt="logo" class="m-1" width="60" height="60" />
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
             aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-center mt-xl-4 flex-grow-1 pe-3 gap-2">
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
             <li :class="[{ active: currentRoute === '/' }, 'nav-item']" aria-current="page" @click="goToPage('/')"
               data-bs-dismiss="offcanvas">
               <label>Inicio</label>
-            </li>
-            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/directorsboard')"
-              :class="{ active: currentRoute === '/directorsboard' }">
-              <label>Junta directiva</label>
             </li>
             <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/services')"
               :class="{ active: currentRoute === '/services' }">
@@ -35,6 +28,10 @@
             <li class="nav-item" @click="goToPage('/announcements')"
               :class="{ active: currentRoute === '/announcements' }">
               <label>Anuncios</label>
+            </li>
+            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/contact')"
+              :class="{ active: currentRoute === '/contact' }">
+              <label>Contactar</label>
             </li>
           </ul>
           <div class="divider-div"></div>
@@ -48,8 +45,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { ref, onMounted } from 'vue'
-import rippleEffect from '@/composables/ripple-effect';
+import { ref } from 'vue'
 import ToggleTheme from '@/components/ToggleTheme.vue';
 import { MenuOpen } from '@/components/icons';
 import AsireaLogo from '@/assets/Logosimbolo.webp'
@@ -59,14 +55,6 @@ import AsireaLogo1 from '@/assets/logosimboloblanco.webp'
 const router = useRouter();
 const currentRoute = ref(router.currentRoute.value.path);
 const darkTheme = ref(false);
-
-onMounted(() => {
-  Array.from(document.querySelectorAll('li'), el => el as HTMLElement).forEach((element: HTMLElement) => {
-    element.style.position = 'relative';
-    element.style.overflow = 'hidden'
-    element.addEventListener('click', rippleEffect)
-  })
-});
 
 const handleThemeChange = (isDarkTheme: boolean) => {
   darkTheme.value = isDarkTheme
@@ -78,79 +66,64 @@ function goToPage(url: string) {
 </script>
 
 <style scoped lang="scss">
-@include ripple-effect();
-
 .navbar {
-  z-index: 1001;
+  z-index: 10;
   position: sticky;
   top: 0;
-  height: 80px;
-  color: var(--text-color);
-  background: var(--tertiary-bg);
+  background: var(--bg-body);
   transition: 0.8s ease;
-  border-bottom: 1px solid var(--border-color);
-  padding-right: 0;
+  padding: 0;
 
-  p {
-    margin: 0 10px;
-    font-size: small;
-    text-wrap: wrap;
-    width: 160px;
-    font-style: normal;
-    font-family: inherit;
-    font-weight: bold;
+  img {
+    padding: 2px;
+    margin-right: 0.5rem;
+    border: none;
+  }
+
+  .navbar-toggler {
+    border: none;
+
+    svg {
+      fill: var(--text-color-1);
+    }
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+
+  .offcanvas-light {
+    color: var(--text-color);
+    background: var(--bg-green);
+  }
+
+  .offcanvas.offcanvas-start {
+    border-radius: 0 5px 5px 0;
+
+    @media (max-width: 768px) {
+      width: 280px;
+    }
+  }
+
+  li.active label {
+    color: var(--accent-color) !important;
+  }
+
+  li label {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer !important;
     color: var(--text-color-3);
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .btn-close {
+    --bs-btn-close-focus-shadow: none;
   }
 }
 
-.offcanvas-light {
-  color: var(--text-color);
-  background: rgba(var(--tertiary-bg-rgb), 1);
-}
-
-.offcanvas.offcanvas-start {
-  border-radius: 0 5px 5px 0;
-
-  @media (max-width: 768px) {
-    width: 280px;
-  }
-}
-
-.btn-close {
-  --bs-btn-close-focus-shadow: none;
-}
-
-img {
-  padding: 2px;
-  margin-right: 0.5rem;
-  border: none;
-}
-
-.nav-item {
-  position: relative;
-  overflow: hidden;
-}
-
-li label {
-  font-size: 1.05rem;
-  font-weight: 500;
-  cursor: pointer !important;
-}
-
-.navbar-toggler {
-  border: none;
-  svg {
-    fill: var(--text-color-1);
-  }
-}
-
-.navbar-toggler:focus {
-  box-shadow: none;
-}
-
-li.active {
-  color: var(--accent-color) !important;
-}
 
 @include respond-to(desktop) {
   .menu-icon {
@@ -158,8 +131,10 @@ li.active {
   }
 
   .navbar .nav-item {
+    display: flex;
+    align-items: center;
+    height: calc(80px - 2px);
     color: var(--text-color);
-    position: relative;
     padding: 10px 15px;
     transition: background-color 0.3s ease;
   }
@@ -168,23 +143,9 @@ li.active {
     cursor: pointer;
   }
 
-  .nav-item::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    height: 3px;
-    width: 0;
-    border-radius: 2px;
-    background-color: var(--accent-color);
-    transition:
-      width 0.3s ease,
-      left 0.3s ease;
-  }
-
-  .navbar li:hover::after {
-    width: 100%;
-    left: 0;
+  .navbar .nav-item.active {
+    border-bottom: 4px solid var(--accent-color);
+    background-color: rgba(var(--accent-color-rgb), 0.3);
   }
 
   button:not(.btn-close, .btn-close-white) {
@@ -231,8 +192,7 @@ li.active {
   }
 
   .offcanvas-header {
-    color: rgba(var(--white-rgb), 1);
-    background-color: #000;
+    background-color: var(--accent-color);
   }
 
   .divider-div {

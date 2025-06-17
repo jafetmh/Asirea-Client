@@ -22,7 +22,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 </script>
 <style scoped lang="scss">
-
 .swiper {
     width: 100%;
     height: 100%;
@@ -36,8 +35,10 @@ import 'swiper/css/scrollbar';
         width: 100% !important;
         height: 450px;
         object-fit: cover;
+        /* border-image: fill 0 linear-gradient(#0003, #000); */
     }
 }
+
 @include respond-to(desktop) {
     .swiper-slide img {
         height: 570px;

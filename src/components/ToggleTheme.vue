@@ -117,6 +117,7 @@ input:not(.input) {
 
   /* estilo de iconos de tema */
   .toggle {
+    z-index: 1;
     background-color: rgba(255, 255, 255, 0.1);
     width: 50px;
     height: 50px;

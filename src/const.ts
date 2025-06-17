@@ -1,5 +1,6 @@
-const ASIREA_PHONE_NUMBER = "2710 7416";
+const ASIREA_PHONE_NUMBER = "(+506) 2710 7416";
 const ASIREA_EMAIL = "asirea@asirea.org";
+const ASIREA_ADRESS = "Limon, Pococi, Guápiles, Costa Rica"
 
 const ERROR = {
     request: {
@@ -12,4 +13,4 @@ const ERROR = {
     }
 }
 
-export {ASIREA_PHONE_NUMBER, ASIREA_EMAIL,ERROR};
+export {ASIREA_PHONE_NUMBER, ASIREA_EMAIL, ASIREA_ADRESS, ERROR};

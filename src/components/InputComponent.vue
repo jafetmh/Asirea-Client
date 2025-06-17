@@ -2,7 +2,7 @@
     <input :class="['form-control', {'is-invalid': error}]" :placeholder="props.placeholder"/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { defineProps } from 'vue';
 
     const props = defineProps({
@@ -22,7 +22,7 @@ import { defineProps } from 'vue';
     }
     .form-control:focus {
         border-width: 2px;
-        border-color: var(--text-secondary-clr);
+        border-color: var(--text-color-1);
         box-shadow: none;
     }
 </style>

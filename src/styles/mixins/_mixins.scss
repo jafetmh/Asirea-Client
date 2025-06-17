@@ -45,3 +45,15 @@
     align-items: $align-items;
   }
   
+  @mixin event-border {
+      content: "";
+      position: absolute;
+      top: 42%;
+      display: block;
+      width: calc(50% + 30px);
+      border-top-width: 1px;
+      border-top-style: solid;
+      margin-top: -1px;
+      z-index: -1;
+      border-color: var(--accent-color);   
+  }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import Navbar from './NavbarLayout.vue';
-import Footer from './Footer.vue';
+import Footer from './FooterLayout.vue';
 </script>
 
 <template>
@@ -28,6 +28,7 @@ import Footer from './Footer.vue';
 
 .navbar {
     grid-area: navbar;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .05);
 }
 
 main {
