@@ -1,46 +1,59 @@
 <template>
-  <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" @click="goToPage('/')">
-        <img :src="darkTheme ? AsireaLogo1 : AsireaLogo" alt="logo" class="m-1" width="80" height="60" />
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-        aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-        <MenuOpen></MenuOpen>
-      </button>
-      <div class="offcanvas offcanvas-start fs-5" :class="{ 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme }"
-        tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
-        <div class="offcanvas-header">
-          <img :src="AsireaLogo1" alt="logo" class="m-1" width="60" height="60" />
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-            aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
-            <li :class="[{ active: currentRoute === '/' }, 'nav-item']" aria-current="page" @click="goToPage('/')"
-              data-bs-dismiss="offcanvas">
-              <label>Inicio</label>
-            </li>
-            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/services')"
-              :class="{ active: currentRoute === '/services' }">
-              <label>Servicios</label>
-            </li>
-            <li class="nav-item" @click="goToPage('/announcements')"
-              :class="{ active: currentRoute === '/announcements' }">
-              <label>Anuncios</label>
-            </li>
-            <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/contact')"
-              :class="{ active: currentRoute === '/contact' }">
-              <label>Contactar</label>
-            </li>
-          </ul>
-          <div class="divider-div"></div>
-          <ToggleTheme themeLabel="Modo oscuro" class="bs-padding" @theme-change="handleThemeChange"
-            data-bs-dismiss="offcanvas" />
+  <div class="d-flex flex-column">
+    <div class="header d-none d-md-block">
+      <div class="container">
+        <div class="content d-flex justify-content-between align-items-center">
+          <p>Teléfono: {{ ASIREA_PHONE_NUMBER }}</p>
+          <p>{{ ASIREA_ADRESS }}</p>
         </div>
       </div>
     </div>
-  </nav>
+    <div class="w-100">
+      <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center" @click="goToPage('/')">
+            <img :src="darkTheme ? AsireaLogo1 : AsireaLogo" alt="logo" class="m-1" width="80" height="60" />
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <MenuOpen></MenuOpen>
+          </button>
+          <div class="offcanvas offcanvas-start fs-5"
+            :class="{ 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme }" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
+            <div class="offcanvas-header">
+              <img :src="AsireaLogo1" alt="logo" class="m-1" width="60" height="60" />
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
+                <li :class="[{ active: currentRoute === '/' }, 'nav-item']" aria-current="page" @click="goToPage('/')"
+                  data-bs-dismiss="offcanvas">
+                  <label>Inicio</label>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/services')"
+                  :class="{ active: currentRoute === '/services' }">
+                  <label>Servicios</label>
+                </li>
+                <li class="nav-item" @click="goToPage('/announcements')"
+                  :class="{ active: currentRoute === '/announcements' }">
+                  <label>Anuncios</label>
+                </li>
+                <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/contact')"
+                  :class="{ active: currentRoute === '/contact' }">
+                  <label>Contactar</label>
+                </li>
+              </ul>
+              <div class="divider-div"></div>
+              <ToggleTheme themeLabel="Modo oscuro" class="bs-padding" @theme-change="handleThemeChange"
+                data-bs-dismiss="offcanvas" />
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -50,6 +63,7 @@ import ToggleTheme from '@/components/ToggleTheme.vue';
 import { MenuOpen } from '@/components/icons';
 import AsireaLogo from '@/assets/Logosimbolo.webp'
 import AsireaLogo1 from '@/assets/logosimboloblanco.webp'
+import { ASIREA_PHONE_NUMBER, ASIREA_ADRESS } from '@/const';
 
 
 const router = useRouter();
@@ -66,13 +80,29 @@ function goToPage(url: string) {
 </script>
 
 <style scoped lang="scss">
+.header {
+  width: 100%;
+  background-color: var(--accent-color);
+
+  .content {
+    height: 30px;
+
+    p {
+      color: #fff;
+      font-size: .6em;
+      margin: 0;
+    }
+  }
+}
+
 .navbar {
   z-index: 10;
   position: sticky;
   top: 0;
-  background: var(--bg-body);
+  background: url('../assets/navnoise.png'), var(--bg-body);
   transition: 0.8s ease;
   padding: 0;
+  width: 100%;
 
   img {
     padding: 2px;
@@ -130,22 +160,28 @@ function goToPage(url: string) {
     @include display-control();
   }
 
+  @media (min-width: 992px) {
+    .navbar .nav-item {
+      height: calc(80px - 2px) !important;
+    }
+
+    .navbar .nav-item.active {
+      border-bottom: 4px solid var(--accent-color);
+      background-color: rgba(var(--accent-color-rgb), 0.3);
+    }
+  }
+
   .navbar .nav-item {
     display: flex;
     align-items: center;
-    height: calc(80px - 2px);
-    color: var(--text-color);
+    height: 2.5em;
+    color: var(--text-color-3);
     padding: 10px 15px;
     transition: background-color 0.3s ease;
   }
 
   .navbar .nav-item:hover {
     cursor: pointer;
-  }
-
-  .navbar .nav-item.active {
-    border-bottom: 4px solid var(--accent-color);
-    background-color: rgba(var(--accent-color-rgb), 0.3);
   }
 
   button:not(.btn-close, .btn-close-white) {

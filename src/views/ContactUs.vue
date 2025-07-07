@@ -2,7 +2,7 @@
     <div class="d-flex flex-column">
         <div class="header-image-container">
             <div class="overlay"></div>
-            <img src="../assets/felajilo.jpg" alt="asirea">
+            <img src="../assets/peaks.png" alt="asirea">
         </div>
         <div class="contact-us">
             <div class="contact-content">
@@ -12,63 +12,72 @@
                         <div class="col-md-6">
                             <p>Puede ponerse en contacto con nosotros para cualquier cuestión relacionada con nuestros
                                 servicios. Nos pondremos en contacto con usted lo antes posible.</p>
-                            <form @submit.prevent="">
-                                <div class="form-floating mb-3 pt-3">
-                                    <input type="text" class="form-control custom-input" id="floatingInput"
-                                        placeholder="nombre">
-                                    <label for="floatingInput">Tu nombre</label>
+                            <Form v-slot="$form" :resolver="resolver" :initialValues="initialValues"
+                                @submit="onFormSubmit" class="d-flex flex-column gap-4 w-100">
+                                <div class="flex flex-col gap-1">
+                                    <FloatLabel variant="in">
+                                        <InputText id="inputname" name="name" variant="filled" size="large"
+                                            class="input-text" />
+                                        <label for="inputname">Nombre Completo</label>
+                                    </FloatLabel>
+                                    <Message v-if="$form.name?.invalid" severity="error" size="small" variant="simple">
+                                        {{ $form.name.error?.message }}</Message>
                                 </div>
-                                <div class="form-floating mb-3 pt-3">
-                                    <input type="tel" class="form-control custom-input" id="floatingInput"
-                                        placeholder="telefono">
-                                    <label for="floatingInput">Telefono</label>
+                                <div class="flex flex-col gap-1">
+                                    <FloatLabel variant="in">
+                                        <InputMask id="phone" name="tel" mask="9999-9999" fluid />
+
+                                        <label for="inputtel">Teléfono </label>
+                                    </FloatLabel>
+                                    <Message v-if="$form.tel?.invalid" severity="error" size="small" variant="simple">{{
+                                        $form.tel.error?.message }}</Message>
                                 </div>
-                                <div class="form-floating mb-3 pt-3">
-                                    <input type="email" class="form-control custom-input" id="floatingInput1"
-                                        placeholder="name@example.com">
-                                    <label for="floatingInput1">Correo electronico</label>
+                                <div class="flex flex-col gap-1">
+                                    <FloatLabel variant="in">
+                                        <InputText id="inputemail" name="email" variant="filled" class="input-text" />
+                                        <label for="inputemail">Correo Electrónico</label>
+                                    </FloatLabel>
+                                    <Message v-if="$form.email?.invalid" severity="error" size="small" variant="simple">
+                                        {{
+                                            $form.email.error?.message }}</Message>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="floatingTextareaDisabled">En que podemos
-                                        ayudarte?</label>
-                                    <textarea class="form-control custom-input" placeholder="Escribe tu solicitud aca"
-                                        rows="4" id="floatingTextarea"></textarea>
-                                </div>
+                                <FloatLabel variant="in">
+                                    <Textarea id="messageTxt" name="message" rows="5" style="resize: none" />
+                                    <label for="messageTxt">Mensaje</label>
+                                </FloatLabel>
                                 <div class="submit text-center">
                                     <input type="submit" class="btn btn-outline-light" value="Contactar">
                                 </div>
-                            </form>
+                            </Form>
                         </div>
-                        <div class="col-md-4 ms-auto px-0">
-                            <div class="info-wrapper">
-                                <div class="info info-horizontal">
-                                    <div class="icon icon-primary">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </div>
-                                    <div class="description">
-                                        <h4 class="info-title">Ubicacion</h4>
-                                        <p> Barrio Diamantes, Guapiles, Pococi
-                                            Limon
-                                        </p>
-                                    </div>
+                        <div class="col-md-4 ms-auto px-sm-2">
+                            <div class="info info-horizontal">
+                                <div class="icon icon-primary">
+                                    <i class="bi bi-pin-map"></i>
                                 </div>
-                                <div class="info info-horizontal">
-                                    <div class="icon icon-primary">
-                                        <i class="bi bi-telephone"></i>
-                                    </div>
-                                    <div class="description">
-                                        <h4 class="info-title">Tel.</h4>
-                                        <p>{{ ASIREA_PHONE_NUMBER }}</p>
-                                    </div>
+                                <div class="description">
+                                    <h4 class="info-title">Ubicación</h4>
+                                    <p> Barrio Diamantes, Guápiles, Pococí
+                                        Limon
+                                    </p>
                                 </div>
-                                <div class="info info-horizontal">
-                                    <div class="icon icon-primary">
-                                        <i class="bi bi-envelope"></i>
-                                    </div>
-                                    <div class="description">
-                                        <h4 class="info-title">Correo electronico.</h4>
-                                        <p>{{ ASIREA_EMAIL }}</p>
-                                    </div>
+                            </div>
+                            <div class="info info-horizontal">
+                                <div class="icon icon-primary">
+                                    <i class="bi bi-telephone"></i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Tel.</h4>
+                                    <p>{{ ASIREA_PHONE_NUMBER }}</p>
+                                </div>
+                            </div>
+                            <div class="info info-horizontal">
+                                <div class="icon icon-primary">
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                                <div class="description">
+                                    <h4 class="info-title">Correo Electrónico.</h4>
+                                    <p>{{ ASIREA_EMAIL }}</p>
                                 </div>
                             </div>
                         </div>
@@ -80,12 +89,34 @@
 </template>
 <script setup lang="ts">
 import { ASIREA_EMAIL, ASIREA_PHONE_NUMBER } from '@/const';
+
+import InputText from 'primevue/inputtext';
+
+import { ref } from 'vue';
+import { zodResolver } from '@primevue/forms/resolvers/zod';
+import { z } from 'zod';
+
+const initialValues = ref({
+    name: '',
+    tel: '',
+    email: '',
+    message: ''
+});
+
+const resolver = ref(zodResolver(
+    z.object({
+        name: z.string().min(1, { message: 'El nombre es requerido.' }),
+        tel: z.string().min(1, { message: 'El número de teléfono es requerido.' }),
+        email: z.string().email({ message: 'Correo electrónico invalido.' })
+    })
+));
+
+
 </script>
 <style lang="scss" scoped>
 .header-image-container {
     height: 55vh;
     width: 100%;
-    overflow: hidden;
     z-index: -1;
     position: relative;
     overflow: hidden;
@@ -109,49 +140,35 @@ import { ASIREA_EMAIL, ASIREA_PHONE_NUMBER } from '@/const';
 }
 
 .contact-us {
-    background-color: var(--bg-body);
+    background-color: var(--bg-green);
     z-index: 1;
     margin: -60px 10px 30px;
-    border-radius: 6px;
+    border-radius: 5px;
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(0, 0, 0, .2);
 
     .contact-content {
-        padding-bottom: 40px;
-        padding-top: 40px;
+        padding: 40px 0;
 
         .tittle {
             font-weight: bold;
             margin-bottom: 1rem;
-            color: var(--title-color)
+            color: #343a40;
+            text-transform: uppercase;
         }
 
-        label,
-        .form-control~label {
-            padding-left: 0;
-            background-color: transparent;
-            transition: all 0.3 ease;
+        .input-text {
+            width: 100%;
         }
 
-        .form-control,
-        .form-control:focus {
-            background-color: var(--bg-body);
-            color: var(--text-color-1);
+        label {
+            font-size: .8em;
+            font-weight: normal;
+            text-transform: capitalize;
         }
 
-        .custom-input {
-            border: none;
-            border-bottom: 2px solid #ccc;
-            border-radius: 0;
-            padding-left: 0;
-            box-shadow: none;
-            caret-color: var(--accent-color);
-            transition: border-color 0.3s;
-        }
-
-        .custom-input:focus {
-            border-bottom: 2px solid var(--accent-color);
-            outline: none;
-            box-shadow: none;
+        ::v-deep(.p-textarea) {
+            width: 100%;
+            max-width: 100%;
         }
 
         .btn-outline-light {
@@ -183,8 +200,20 @@ import { ASIREA_EMAIL, ASIREA_PHONE_NUMBER } from '@/const';
     }
 }
 
-.dark-mode .contact-us .contact-content .form-control:focus~label {
-    padding-left: .75rem;
+::v-deep(.p-floatlabel-in:has(input:focus)) {
+    label {
+        font-size: 0.80em;
+    }
+}
+
+::v-deep(.p-floatlabel-in:has(textarea:focus)) {
+    label {
+        font-size: 0.80em;
+    }
+}
+
+::v-deep(.p-inputtext:enabled:focus) {
+    box-shadow: 0 8px 15px rgba(45, 125, 96, 0.3);
 }
 
 @include respond-to(desktop) {
@@ -193,36 +222,53 @@ import { ASIREA_EMAIL, ASIREA_PHONE_NUMBER } from '@/const';
     }
 }
 
-.info-wrapper {
-    padding: 20px 30px;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--bg-green-1);
 
-    .info {
-        padding-bottom: 10px;
-        padding-top: 0;
+.info {
+    padding-bottom: 10px;
+    padding-top: 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info {
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 20px 0 10px;
+}
+
+p {
+    color: #3c414a;
+}
+
+.info-horizontal .icon {
+    float: left;
+    margin-right: 10px;
+}
+
+.info-title {
+    text-transform: capitalize;
+    color: #343a40;
+    font-weight: bold;
+}
+
+.icon.icon-primary {
+    color: var(--accent-color);
+    font-size: 22px;
+}
+
+@media (max-width: 768px) {
+    .header-image-container {
+        max-height: 30vh;
     }
 
-    .info {
-        max-width: 360px;
-        margin: 0 auto;
-        padding: 20px 0 30px;
+    .contact-us .contact-content {
+        font-size: .9em;
     }
 
-    .info-horizontal .icon {
-        float: left;
-        margin-right: 10px;
+    .contact-us .contact-content {
+        padding: 40px 12px;
     }
-
-    .info-title {
-        color: #2c2c2c;
-        font-weight: bold;
-    }
-
-    .icon.icon-primary {
-        color: var(--accent-color);
-        font-size: 30px;
+    .contact-us .contact-content .btn {
+        width: 100%;
     }
 }
 </style>
