@@ -5,7 +5,7 @@
             <swiper-slide><img src="../assets/card.webp" alt=""></swiper-slide>
             <swiper-slide><img src="../assets/card3.webp" alt=""></swiper-slide>
             <swiper-slide><img src="../assets/card1.webp" alt=""></swiper-slide>
-            <swiper-slide><img src="../assets/card5.webp" alt=""></swiper-slide>
+            <swiper-slide><img src="../assets/card5.jpg" alt=""></swiper-slide>
         </swiper>
         <!--         <swiper :modules="[A11y, Autoplay]" :autoplay="{ delay: 180000, disableOnInteraction: false }" :loop="true">
             <swiper-slide><img :src="Foto3" alt=""></swiper-slide>
