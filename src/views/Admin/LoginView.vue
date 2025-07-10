@@ -78,7 +78,7 @@ import ButtonComponent from '@/components/ButtonComponent.vue';
 import { onMounted, ref } from 'vue';
 import useAuthStore from '@/store/authStore';
 import type { User } from '@/interfaces/User';
-import Dialog from '@/components/Dialog.vue';
+import Dialog from '@/components/DialogComponenet.vue';
 import { ERROR } from '@/const';
 import error from '@/assets/error.json'
 

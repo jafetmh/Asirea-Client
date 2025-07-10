@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import Aside from './Aside.vue';
+import Aside from './AsideLayout.vue';
 import AdminNav from './AdminNav.vue';
 import { ref } from 'vue';
 
