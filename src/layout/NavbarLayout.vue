@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex flex-column">
-    <div class="header d-none d-md-block">
+  <div class="d-flex flex-column wrapper">
+    <div class="header d-none d-md-flex align-items-center">
       <div class="container">
         <div class="content d-flex justify-content-between align-items-center">
           <p>Teléfono: {{ ASIREA_PHONE_NUMBER }}</p>
@@ -12,7 +12,7 @@
       <nav ref="navbar" class="navbar navbar-solid navbar-expand-lg">
         <div class="container">
           <a class="navbar-brand d-flex align-items-center" @click="goToPage('/')">
-            <img :src="darkTheme ? AsireaLogo1 : AsireaLogo" alt="logo" class="m-1" width="80" height="60" />
+            <img :src="AsireaLogo1" alt="logo" class="m-1" width="80" height="60" />
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
             aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
@@ -22,7 +22,7 @@
             :class="{ 'text-bg-dark': darkTheme, 'offcanvas-light': !darkTheme }" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel" ref="navbarCollapse">
             <div class="offcanvas-header">
-              <img :src="AsireaLogo1" alt="logo" class="m-1" width="60" height="60" />
+              <img :src="AsireaLogo1" alt="logo" class="m-1" width="80" height="60" />
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
             </div>
@@ -30,19 +30,29 @@
               <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 gap-2">
                 <li :class="[{ active: currentRoute === '/' }, 'nav-item']" aria-current="page" @click="goToPage('/')"
                   data-bs-dismiss="offcanvas">
+                  <i class="bi bi-house-fill menu-icon"></i>
                   <label>Inicio</label>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/services')"
                   :class="{ active: currentRoute === '/services' }">
+                  <i class="bi bi-briefcase-fill menu-icon"></i>
                   <label>Servicios</label>
                 </li>
                 <li class="nav-item" @click="goToPage('/announcements')"
                   :class="{ active: currentRoute === '/announcements' }">
+                  <i class="bi bi-megaphone-fill menu-icon"></i>
                   <label>Anuncios</label>
                 </li>
                 <li class="nav-item" data-bs-dismiss="offcanvas" @click="goToPage('/contact')"
                   :class="{ active: currentRoute === '/contact' }">
-                  <label>Contactar</label>
+                  <i class="bi bi-envelope-fill menu-icon"></i>
+
+                  <label class="position-relative">Contactar
+                    <span
+                      class="position-absolute top-0 start-100 translate-middle p-1 border border-light rounded-circle">
+                      <span class="visually-hidden">¡Nuevo!</span>
+                    </span>
+                  </label>
                 </li>
               </ul>
               <div class="divider-div"></div>
@@ -61,8 +71,8 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import ToggleTheme from '@/components/ToggleTheme.vue';
 import { MenuOpen } from '@/components/icons';
-import AsireaLogo from '@/assets/Logosimbolo.webp'
-import AsireaLogo1 from '@/assets/logosimboloblanco.webp'
+/* import AsireaLogo from '@/assets/Logosimbolo.webp'
+ */import AsireaLogo1 from '@/assets/logosimboloblanco.webp'
 import { ASIREA_PHONE_NUMBER, ASIREA_ADRESS } from '@/const';
 
 
@@ -80,26 +90,27 @@ function goToPage(url: string) {
 </script>
 
 <style scoped lang="scss">
+.wrapper {
+  max-width: 100%;
+}
+
+.navbar, .header {
+  background-color: var(--p-emerald-950);
+}
 .header {
+  height: 30px;
   width: 100%;
-  background-color: var(--accent-color);
-
-  .content {
-    height: 30px;
-
-    p {
-      color: #fff;
-      font-size: .6em;
-      margin: 0;
-    }
+  .content p {
+    color: #fff;
+    font-size: .6em;
+    margin: 0;
   }
 }
 
 .navbar {
-  z-index: 10;
-  position: sticky;
   top: 0;
-  background: url('../assets/navnoise.png'), var(--bg-body);
+  position: sticky;
+  z-index: 10;
   transition: 0.8s ease;
   padding: 0;
   width: 100%;
@@ -112,10 +123,6 @@ function goToPage(url: string) {
 
   .navbar-toggler {
     border: none;
-
-    svg {
-      fill: var(--text-color-1);
-    }
   }
 
   .navbar-toggler:focus {
@@ -124,29 +131,24 @@ function goToPage(url: string) {
 
   .offcanvas-light {
     color: var(--text-color);
-    background: var(--bg-green);
+    background: var(--p-emerald-700);
   }
 
   .offcanvas.offcanvas-start {
-    border-radius: 0 5px 5px 0;
-
-    @media (max-width: 768px) {
-      width: 280px;
-    }
+    border-radius: 0 10px 10px 0;
   }
 
-  li.active label {
-    color: var(--accent-color) !important;
+  .menu-icon {
+    @include menuIcon();
   }
 
   li label {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: .8em;
+    font-weight: 400;
     cursor: pointer !important;
-    color: var(--text-color-3);
     letter-spacing: 0.11em;
-    text-transform: uppercase;
+    text-transform: capitalize;
   }
 
   .btn-close {
@@ -154,30 +156,39 @@ function goToPage(url: string) {
   }
 }
 
-
-@include respond-to(desktop) {
-  .menu-icon {
-    @include display-control();
+@include respond-to(mobile) {
+  .offcanvas.offcanvas-start {
+    width: 280px;
   }
 
-  @media (min-width: 992px) {
-    .navbar .nav-item {
-      height: calc(80px - 2px) !important;
-    }
+  .menu-icon {
+    @include menuIcon();
+  }
+}
 
-    .navbar .nav-item.active {
-      border-bottom: 4px solid var(--accent-color);
-      background-color: rgba(var(--accent-color-rgb), 0.3);
-    }
+@media (min-width: 992px) {
+  .navbar .nav-item.active {
+    border-bottom: 4px solid var(--p-emerald-700);
+  }
+
+  .navbar .nav-item .menu-icon {
+    display: none;
   }
 
   .navbar .nav-item {
     display: flex;
     align-items: center;
     height: 2.5em;
-    color: var(--text-color-3);
+    color: rgba(var(--white-rgb), 1);
     padding: 10px 15px;
     transition: background-color 0.3s ease;
+    height: calc(80px - 2px) !important;
+  }
+
+  .navbar .nav-item label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   .navbar .nav-item:hover {
@@ -201,7 +212,7 @@ function goToPage(url: string) {
   .divider {
     margin: 6px 0;
     margin-left: 2.5rem;
-    border-right: 1px solid var(--divider-color);
+    border-right: 1px solid var(--border-color);
   }
 
   .dropdown {
@@ -221,14 +232,10 @@ function goToPage(url: string) {
     flex-direction: row;
     align-items: center;
     padding: 10px;
-  }
 
-  .menu-icon {
-    @include menuIcon();
-  }
-
-  .offcanvas-header {
-    background-color: var(--accent-color);
+    label {
+      color: var(--text-color-3);
+    }
   }
 
   .divider-div {

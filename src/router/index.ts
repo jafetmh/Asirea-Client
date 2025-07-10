@@ -34,7 +34,7 @@ const router = createRouter({
         {
           path: '/sing-up',
           name: 'sing-up',
-          meta: { requiresAuth: true },
+          meta: { requiresAuth: false },
           component: UserProfile
         },
         {
@@ -81,7 +81,7 @@ router.beforeEach(async (to, formToJSON, next) => {
     next('/login');
   }else{
     next();
-  } 
+  }
 })
 
 export default router

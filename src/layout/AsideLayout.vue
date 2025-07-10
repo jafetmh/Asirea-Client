@@ -204,7 +204,9 @@ function closeAllSubMenus() {
   align-items: center;
   gap: 1em;
 }
-
+ #sidebar ul li a span, #sidebar ul li button span, li .sub-menu {
+  font-size: .8em;
+ }
 .dropdown-btn {
   width: 100%;
   text-align: left;
@@ -230,6 +232,7 @@ function closeAllSubMenus() {
 }
 
 #sidebar .sub-menu {
+
   display: grid;
   grid-template-rows: 0fr;
   transition: 300ms ease-in-out;

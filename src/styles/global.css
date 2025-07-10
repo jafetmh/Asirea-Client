@@ -7,7 +7,7 @@
 :root{
 
   --bg-body: #ffff;
-  --bg-body-1: #EDF3FB;
+  --bg-body-1: #edf3fb;
   --black-color: #000;
   --black-rgb: 0,0,0;
   --white-rgb: 255, 255,255;
@@ -20,7 +20,7 @@
   --text-color-3: #2C2C2C;
   --title-color: #343a40;
 
-  --accent-color: #15803d;
+  --accent-color: var(--p-emerald-800);
   --accent-color-rgb: 21, 128, 61;
 
   --aside-bg: #f7f7f8;
@@ -76,4 +76,18 @@ body{
   font-weight: 300;
   line-height: 1.5;
   font-family: Heebo, san-serif;
+
+  @media (max-width: 768px){
+  font-size: 1.2em;
+  font-weight: 350;
+   -webkit-hyphens: auto;
+   -moz-hyphens: auto;
+   -ms-hyphens: auto;
+    hyphens: auto;
+    word-wrap: break-word;
+  }
+    @media (min-width: 768px) and (max-width: 992px){
+      font-size: 1.1em;
+    }
+
 }

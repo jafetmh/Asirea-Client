@@ -38,6 +38,8 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import type { User } from '@/interfaces/User'
+import api from '@/utils/axios';
+import { apiRoutes } from '@/api/api_routes';
 
 const store = useAuthStore();
 const router = useRouter();
@@ -64,6 +66,8 @@ const handleSubmit = (user: Partial<User>) => {
     if (isEditing.value) {
 
     } else {
+      const response = api.post(apiRoutes.singUp, user);
+      console.log(response);
 
     }
     router.push('/admin');

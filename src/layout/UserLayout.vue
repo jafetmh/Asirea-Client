@@ -33,7 +33,6 @@ import Footer from './FooterLayout.vue';
 
 main {
     grid-area: main;
-    width: calc(100vw - 15px);
 }
 
 .footer {

@@ -146,10 +146,14 @@ button {
         opacity: 0.7;
     }
 }
+ul a span, .logout-btn {
+  font-size: .8em;
+}
 .logout-btn {
     width: calc(100% - 32px);
     position: absolute;
     bottom: 20px;
+
 }
 
 .custom-bg {

@@ -35,8 +35,8 @@ button {
     span {
         color: var(--text-secondary-clr);
         font-weight: bold;
-        font-size: small;
         text-wrap: nowrap;
+        font-size: .8em;
     }
 }
 

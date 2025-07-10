@@ -36,7 +36,7 @@
         <Transition name="slide-fade">
             <div v-if="!inputDisabled || !isEdit">
                 <div class="d-flex justify-content-end">
-                    <ButtonComponent type="submit" class="m-2" :rounded="false"
+                    <ButtonComponent type="submit" class="m-2 fs-6" :rounded="false"
                         :label="isEdit ? 'Actualizar' : 'Guardar'" />
                 </div>
             </div>
@@ -71,6 +71,9 @@ watch(() => props.user, (newUser) => {
 .form-floating {
     width: 100%;
     margin: .5em;
+}
+.form-floating label {
+  font-size: .8em;
 }
 button {
     width: 118.71px;

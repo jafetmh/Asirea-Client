@@ -13,6 +13,7 @@ declare module 'vue' {
     Card: typeof import('primevue/card')['default']
     CarouselComponent: typeof import('./src/components/CarouselComponent.vue')['default']
     Dialog: typeof import('./src/components/Dialog.vue')['default']
+    DialogComponenet: typeof import('./src/components/DialogComponenet.vue')['default']
     Edit: typeof import('./src/components/icons/buttons/Edit.vue')['default']
     Error: typeof import('./src/components/icons/alert/error.vue')['default']
     EventMarkerSymbol: typeof import('./src/components/icons/EventMarkerSymbol.vue')['default']
